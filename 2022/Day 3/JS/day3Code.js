@@ -12,24 +12,26 @@ fs.readFile("../2022/Day 3/input.txt", "utf8", (err, data) => {
   }
 });
 
-const itemTypes = () => {
+const itemType = (string) => {
   let compartment1 = []
   let compartment2 = []
-  for (let item = 0; item < (testString.length); item++) {
-    if (item <= ((testString.length / 2) - 1)) {
-      compartment1.push(testString[item])
+
+  // First split the string into two equal halves
+  for (let item = 0; item < (string.length); item++) {
+    if (item <= ((string.length / 2) - 1)) {
+      compartment1.push(string[item])
     } else {
-      compartment2.push(testString[item])
+      compartment2.push(string[item])
     }
   }
-  console.log(compartment1.length, 'vs', compartment2.length)
 
+  // Use indexOf to find the matching item
   // https://www.w3schools.com/jsref/jsref_indexof_array.asp
   for (let itemToCompare = 0; itemToCompare < compartment1.length; itemToCompare++) {
     if (compartment2.indexOf(compartment1[itemToCompare]) !== -1) {
-      // console.log(compartment1[itemToCompare])
+      console.log(compartment1[itemToCompare])
     }
   }
 }
 
-itemTypes()
+itemType(testString)
