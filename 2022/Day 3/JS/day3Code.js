@@ -16,7 +16,7 @@ const itemTypes = () => {
   let compartment1 = []
   let compartment2 = []
   for (let item = 0; item < (testString.length); item++) {
-    if (item <= (testString.length)/2) {
+    if (item <= ((testString.length / 2) - 1)) {
       compartment1.push(testString[item])
     } else {
       compartment2.push(testString[item])
