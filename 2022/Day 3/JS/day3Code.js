@@ -6,12 +6,12 @@ const testArray = [
   "lGGLQwFhDgWdqvhW",
   "wbLNjGjlwLFrpSbllrHnHHRmmJVBmZJRRVcBTc",
 ];
+
 const inputFileData = fs.readFileSync("../2022/Day 3/input.txt", "utf8");
 dataArray = inputFileData.split("\r\n");
 
 // Function to find the matched item from each compartment in the rucksack
 const itemType = (string) => {
-  // console.log("the string going into the itemType function is", string);
   let compartment1 = [];
   let compartment2 = [];
   let match = "";
@@ -54,15 +54,11 @@ const prioritySum = (array) => {
   let prioritySum = 0;
   for (let rucksack = 0; rucksack < array.length; rucksack++) {
     let match = itemType(array[rucksack]);
-    // console.log("the resulting match from the itemType function is", match);
     if (testCase(match) === true) {
-      // console.log("upper case and score to add is ", match.charCodeAt(0) - 38)
       prioritySum += match.charCodeAt(0) - 38;
     } else {
-      // console.log("lower case and score to add is ", match.charCodeAt(0) - 96)
       prioritySum += match.charCodeAt(0) - 96;
     }
-    console.log("The character is", match, "and the score is", prioritySum);
   }
 };
 
