@@ -1,19 +1,17 @@
-testString = "BccTFfTPTsffdDDqsq";
-testArray = [
+const fs = require("fs");
+
+const testString = "qhRmTpzpzVzmTTbmVhWWWpVvDtsLVlwBVHvSsDCvvBDl";
+const testArray = [
   "BccTFfTPTsffdDDqsq",
   "lGGLQwFhDgWdqvhW",
   "wbLNjGjlwLFrpSbllrHnHHRmmJVBmZJRRVcBTc",
 ];
+const inputFileData = fs.readFileSync("../2022/Day 3/input.txt", "utf8");
+dataArray = inputFileData.split("\r\n");
 
-const fs = require("fs");
-
-fs.readFile("../2022/Day 3/input.txt", "utf8", (err, data) => {
-  if (err) throw err;
-  dataToString = data.toString().split("\r\n");
-  // console.log(dataToString);
-});
-
+// Function to find the matched item from each compartment in the rucksack
 const itemType = (string) => {
+  // console.log("the string going into the itemType function is", string);
   let compartment1 = [];
   let compartment2 = [];
   let match = "";
@@ -28,15 +26,15 @@ const itemType = (string) => {
   }
 
   // Use indexOf to find the matching item
-  // https://www.w3schools.com/jsref/jsref_indexof_array.asp
   for (
     let itemToCompare = 0;
     itemToCompare < compartment1.length;
     itemToCompare++
   ) {
-    if (compartment2.indexOf(compartment1[itemToCompare]) !== -1) {
+    if (match.length > 0) {
+      break;
+    } else if (compartment2.indexOf(compartment1[itemToCompare]) !== -1) {
       match += compartment1[itemToCompare];
-      // console.log("the match is ", match);
     }
   }
   return match;
@@ -56,9 +54,12 @@ const prioritySum = (array) => {
   let prioritySum = 0;
   for (let rucksack = 0; rucksack < array.length; rucksack++) {
     let match = itemType(array[rucksack]);
+    // console.log("the resulting match from the itemType function is", match);
     if (testCase(match) === true) {
-      prioritySum += match.charCodeAt(0) - 64;
+      // console.log("upper case and score to add is ", match.charCodeAt(0) - 38)
+      prioritySum += match.charCodeAt(0) - 38;
     } else {
+      // console.log("lower case and score to add is ", match.charCodeAt(0) - 96)
       prioritySum += match.charCodeAt(0) - 96;
     }
     console.log("The character is", match, "and the score is", prioritySum);
@@ -66,4 +67,4 @@ const prioritySum = (array) => {
 };
 
 // prioritySum(testString);
-prioritySum(testArray);
+prioritySum(dataArray);
