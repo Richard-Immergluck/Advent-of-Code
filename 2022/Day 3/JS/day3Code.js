@@ -37,13 +37,24 @@ const itemType = (string) => {
   return match;
 };
 
+// Function to test if the letter is upper case (true) or lower case (false)
+const testCase = (char) => {
+  if (char === char.toUpperCase()) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 // Find the sum of the priority of the matching items
 const prioritySum = (string) => {
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
-let isCapital = false;
 let prioritySum = 0;
 const match = itemType(string);
+let isCapital = testCase(match);
 console.log("The character is", match, "and its score is", match.charCodeAt(0)-96)
+console.log("is the character a capital???", isCapital)
 };
+
 
 prioritySum(testString);
