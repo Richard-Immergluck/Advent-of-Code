@@ -40,9 +40,10 @@ const itemType = (string) => {
 // Find the sum of the priority of the matching items
 const prioritySum = (string) => {
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
-prioritySum = 0;
-
-  const match = itemType(string);
+let isCapital = false;
+let prioritySum = 0;
+const match = itemType(string);
+console.log("The character is", match, "and its score is", match.charCodeAt(0)-96)
 };
 
 prioritySum(testString);
