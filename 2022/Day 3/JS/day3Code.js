@@ -1,4 +1,5 @@
 testString = "BccTFfTPTsffdDDqsq";
+testArray = ["BccTFfTPTsffdDDqsq", "lGGLQwFhDgWdqvhW", "wbLNjGjlwLFrpSbllrHnHHRmmJVBmZJRRVcBTc"]
 
 const fs = require("fs");
 
@@ -46,13 +47,18 @@ const testCase = (char) => {
   }
 }
 
+
 // Find the sum of the priority of the matching items
 const prioritySum = (string) => {
-const alphabet = "abcdefghijklmnopqrstuvwxyz";
 let prioritySum = 0;
 const match = itemType(string);
 let isCapital = testCase(match);
-console.log("The character is", match, "and its score is", match.charCodeAt(0)-96)
+if (testCase(match) === true) {
+    prioritySum += match.charCodeAt(0)-64;
+} else {
+    prioritySum += match.charCodeAt(0)-96;
+}
+console.log("The character is", match, "and its score is", prioritySum)
 console.log("is the character a capital???", isCapital)
 };
 
