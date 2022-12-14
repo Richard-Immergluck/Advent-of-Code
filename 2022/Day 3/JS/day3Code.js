@@ -49,6 +49,7 @@ const testCase = (char) => {
   }
 };
 
+// Part 1
 // Find the sum of the priority of the matching items
 const prioritySum = (array) => {
   let prioritySum = 0;
@@ -60,7 +61,14 @@ const prioritySum = (array) => {
       prioritySum += match.charCodeAt(0) - 96;
     }
   }
+  console.log(prioritySum)
 };
 
-// prioritySum(testString);
+// Part 2
+// Find the sum of the priorities that appeear in each group of 3 rucksacks
+const prioritySum3 = (array) => {
+  let prioritySum = 0;
+
+}
+
 prioritySum(dataArray);
