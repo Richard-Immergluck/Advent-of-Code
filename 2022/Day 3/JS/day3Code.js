@@ -1,5 +1,9 @@
 testString = "BccTFfTPTsffdDDqsq";
-testArray = ["BccTFfTPTsffdDDqsq", "lGGLQwFhDgWdqvhW", "wbLNjGjlwLFrpSbllrHnHHRmmJVBmZJRRVcBTc"]
+testArray = [
+  "BccTFfTPTsffdDDqsq",
+  "lGGLQwFhDgWdqvhW",
+  "wbLNjGjlwLFrpSbllrHnHHRmmJVBmZJRRVcBTc",
+];
 
 const fs = require("fs");
 
@@ -45,22 +49,21 @@ const testCase = (char) => {
   } else {
     return false;
   }
-}
-
-
-// Find the sum of the priority of the matching items
-const prioritySum = (string) => {
-let prioritySum = 0;
-const match = itemType(string);
-let isCapital = testCase(match);
-if (testCase(match) === true) {
-    prioritySum += match.charCodeAt(0)-64;
-} else {
-    prioritySum += match.charCodeAt(0)-96;
-}
-console.log("The character is", match, "and its score is", prioritySum)
-console.log("is the character a capital???", isCapital)
 };
 
+// Find the sum of the priority of the matching items
+const prioritySum = (array) => {
+  let prioritySum = 0;
+  for (let rucksack = 0; rucksack < array.length; rucksack++) {
+    let match = itemType(array[rucksack]);
+    if (testCase(match) === true) {
+      prioritySum += match.charCodeAt(0) - 64;
+    } else {
+      prioritySum += match.charCodeAt(0) - 96;
+    }
+    console.log("The character is", match, "and the score is", prioritySum);
+  }
+};
 
-prioritySum(testString);
+// prioritySum(testString);
+prioritySum(testArray);
