@@ -113,6 +113,7 @@ const threeBagMatch = (group) => {
         if (bagThree.indexOf(bagOne[itemToCompare]) !== -1) {
           match = bagOne[itemToCompare];
           console.log('match found', match);
+          break
         }
       }
     }
