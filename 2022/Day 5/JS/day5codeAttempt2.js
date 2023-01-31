@@ -28,7 +28,7 @@ const crateStackCreator = (dataArray) => {
 };
 
 const crateShuffler = (dataArray) => {
-  cratesArray = crateStackCreator(dataArray);
+  let cratesArray = crateStackCreator(dataArray);
 
   // Grab the instructions first
   // Loop through the dataArray starting at line 9
