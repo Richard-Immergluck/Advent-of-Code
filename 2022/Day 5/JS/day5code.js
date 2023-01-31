@@ -11,23 +11,13 @@ testArray = [
   "move 6 from 9 to 5",
   "move 2 from 3 to 8",
   "move 9 from 7 to 8",
-  "move 15 from 8 to 9",
-  "move 3 from 1 to 6",
-  "move 6 from 4 to 2",
-  "move 6 from 5 to 6",
-  "move 1 from 4 to 2",
-  "move 14 from 6 to 2",
-  "move 2 from 1 to 5",
-  "move 1 from 7 to 3",
-  "move 1 from 4 to 8",
-  "move 2 from 5 to 6",
-  "move 25 from 2 to 4",
-  "move 2 from 6 to 4",
+  "move 15 from 8 to 9"
 ];
 
 // console.log(dataArray);
 
-// We've got 3 input numbers. The number of crates to move, a FROM and a TO
+// We've got 3 input numbers. The number of crates to move, a FROM and a TO. 
+// And we have an array of objects representing each stack of crates 
 
 const crateSorter = (dataArray) => {
   // Columns as an array of objects
