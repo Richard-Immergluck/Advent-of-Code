@@ -30,6 +30,7 @@ const crateStackCreator = (dataArray) => {
 const crateShuffler = (dataArray) => {
   cratesArray = crateStackCreator(dataArray);
 
+  // Grab the instructions first
   // Loop through the dataArray starting at line 9
   for (let instruction = 10; instruction < dataArray.length; instruction++) {
     let numberOfCrates = 0;
@@ -43,7 +44,7 @@ const crateShuffler = (dataArray) => {
     to = numbers[2] - 1;
 
     console.log(
-      `For instruction ${instruction -9}, the number of crates to move
+      `For instruction ${instruction - 9}, the number of crates to move
       is ${numberOfCrates}, the FROM column is ${from + 1} (${
         cratesArray[from]
       })
@@ -51,15 +52,26 @@ const crateShuffler = (dataArray) => {
     );
 
     // Pop the crates from the FROM stack and push them to the TO stack
-    let pushedCrates = cratesArray[from].splice(
-      cratesArray[from].length - numberOfCrates
-    );
-    console.log(`The pushed letters are ${pushedCrates}`);
+    let pushedCrates = cratesArray[from].splice(0, numberOfCrates);
+
     // Push the crates to the TO stack
-    cratesArray[to].push(pushedCrates);
-    console.log(`The from stack is now ${cratesArray[from]}`)
-    console.log(`The To stack is now ${cratesArray[to]}`)
+    // For part 2 simply remove the reverse() method
+    cratesArray[to].unshift(...pushedCrates.reverse());
+  }
+
+  // Once the for loop has finished, find the top crate in each stack.
+  for (let stackIndex = 0; stackIndex <= 8; stackIndex++) {
+    console.log(
+      `The top crate in stack ${stackIndex + 1} is ${
+        cratesArray[stackIndex][0]
+      }`
+    );
   }
 };
 
 crateShuffler(dataArray);
+
+// It turns out my problem had more to do with not placing the
+// shifted crates in the right order. The instructions state
+// ONE AT A TIME which means that when shifting the crates the order
+// IS REVERESED

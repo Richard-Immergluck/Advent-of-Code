@@ -14,8 +14,6 @@ testArray = [
   "move 15 from 8 to 9"
 ];
 
-// console.log(dataArray);
-
 // We've got 3 input numbers. The number of crates to move, a FROM and a TO. 
 // And we have an array of objects representing each stack of crates 
 
