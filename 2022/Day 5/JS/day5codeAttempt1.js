@@ -43,36 +43,36 @@ const crateSorter = (dataArray) => {
     // extract the 3 relevant pieces of data and store in variables
     let numbers = dataArray[instruction].match(/\d+/g);
     numberOfCrates = numbers[0];
-    from = numbers[1];
-    to = numbers[2];
+    from = numbers[1] - 1;
+    to = numbers[2] - 1;
 
     console.log(
       `For instruction ${instruction + 1}, the number of crates to move
-      is ${numberOfCrates}, the FROM column is ${from} (${
-        columns[from - 1].contents
+      is ${numberOfCrates}, the FROM column is ${from+1} (${
+        columns[from].contents
       })
-      and the TO column is ${to} (${columns[to - 1].contents})`
+      and the TO column is ${to+1} (${columns[to].contents})`
     );
 
     // Get the FROM column letters
-    let pushedLetters = columns[from - 1].contents.slice(
-      columns[from - 1].contents.length - numberOfCrates
+    let pushedLetters = columns[from].contents.slice(
+      columns[from].contents.length - numberOfCrates
     );
     // console.log("pushed letters are ====> ", pushedLetters);
 
     // Get the TO column letters and concat the sliced letters from the FROM column
-    let result = columns[to - 1].contents.concat(pushedLetters);
+    let result = columns[to].contents.concat(pushedLetters);
 
     // Update the contents of the TO column
-    columns[to - 1].contents = result;
+    columns[to].contents = result;
 
     // Finally update the FROM column
-    columns[from - 1].contents = columns[from - 1].contents.slice(
+    columns[from].contents = columns[from].contents.slice(
       0,
-      columns[from - 1].contents.length - numberOfCrates
+      columns[from].contents.length - numberOfCrates
     );
-    console.log("Confirm FROM column updated", columns[from - 1]);
-    console.log("confirm TO column updated", columns[to - 1]);
+    console.log("Confirm FROM column updated", columns[from]);
+    console.log("confirm TO column updated", columns[to]);
   }
 
   // Once the for loop has finished, find the top crate in each stack.
@@ -86,4 +86,4 @@ const crateSorter = (dataArray) => {
   }
 };
 
-crateSorter(dataArray);
+crateSorter(testArray);
