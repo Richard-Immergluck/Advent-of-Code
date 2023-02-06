@@ -7,6 +7,10 @@ a set of actions that are performed within the file system as the user browses. 
 asking us to find all the directories with a total size no greater than 100000. The tital size
 of the sum of these directories is the answer to part 1. 
 
+My first thoughts with this question is to create a dictionary containing the directories and 
+any files inside. With the dictionary creating the structure of the file system hopefully it 
+will be possible then to loop through the dictionary finding the total size of each directory
+and then find the relevant directories to sum up for the answer to part 1. 
 
 */
 
