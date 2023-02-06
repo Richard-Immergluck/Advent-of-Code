@@ -34,7 +34,7 @@ const part2TestCase4 = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg";
 
 // Read in the input file
 const fs = require("fs");
-packet = fs.readFileSync("../2022/Day 6/input.txt", "utf8").split();
+const packet = fs.readFileSync("../2022/Day 6/input.txt", "utf8").split();
 
 // Function to check for unique characters
 const uniqueCharacterCheck = (sequence) => {
