@@ -19,7 +19,34 @@ const fs = require('fs');
 const testScript = fs.readFileSync("../2022/Day 7/testinput.txt", "utf8").split("\r\n");
 // result is 95437
 
-console.log(testScript);
+const createFileSystem = (script) => {
+  
+  // Declare variables 
+  let fileSystem = {};
+
+  // To start we need a loop running through the script one line at a time and then deducing 
+  // what that line's instructions are. 
+
+  for (let line = 0; line < script.length; line++) {
+    // Now I think we'll need some more variables to keep track of where we are in the file system.
+    currentDirectory = '/'
+
+    // I'm feeling that the 'ls' line can be ignored?
+
+    // If statement to ascertain if the line is a directory or file and create the required object
+    if (script[line].includes('dir')) {
+      // do something
+    }
+  }
+
+  return 
+} 
+
+if (createFileSystem(testScript) === 95437) {
+  console.log("Test script passed");
+} else { 
+  console.log("Test script failed");
+}
 
 
 
