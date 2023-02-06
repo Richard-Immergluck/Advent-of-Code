@@ -12,6 +12,9 @@ any files inside. With the dictionary creating the structure of the file system 
 will be possible then to loop through the dictionary finding the total size of each directory
 and then find the relevant directories to sum up for the answer to part 1. 
 
+I think an dictionary isn't going to work as needed because of scope of the system. Perhaps 
+arrays would suite better?
+
 */
 
 const fs = require('fs');
@@ -22,7 +25,7 @@ const testScript = fs.readFileSync("../2022/Day 7/testinput.txt", "utf8").split(
 const createFileSystem = (script) => {
   
   // Declare variables 
-  let fileSystem = {};
+  let fileSystem = [];
 
   // To start we need a loop running through the script one line at a time and then deducing 
   // what that line's instructions are. 
@@ -35,9 +38,12 @@ const createFileSystem = (script) => {
 
     // If statement to ascertain if the line is a directory or file and create the required object
     if (script[line].includes('dir')) {
-      // do something
+      let directoryName = script[line].slice(4)// do something
+      fileSystem.push([directoryName])
     }
   }
+
+  console.log(fileSystem)
 
   return 
 } 
