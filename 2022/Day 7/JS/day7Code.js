@@ -30,17 +30,25 @@ const createFileSystem = (script) => {
   // To start we need a loop running through the script one line at a time and then deducing 
   // what that line's instructions are. 
 
-  for (let line = 0; line < script.length; line++) {
+  for (let line = 1; line < script.length; line++) {
     // Now I think we'll need some more variables to keep track of where we are in the file system.
     currentDirectory = '/'
 
-    // I'm feeling that the 'ls' line can be ignored?
+    // Looking at the data, the ls lines are always followed by a list of contents which will only
+    // end when a 'cd' line happens. So if we know where we are in the file system when the ls 
+    // call occurs then we can add to the array whatever is listed under LS. 
 
-    // If statement to ascertain if the line is a directory or file and create the required object
-    if (script[line].includes('dir')) {
-      let directoryName = script[line].slice(4)// do something
+    // If the string implies a directory create the required array 
+    if (currentDirectory === '/' && script[line].includes('dir')) {
+      let directoryName = script[line].slice(4)
       fileSystem.push([directoryName])
+    } else if (script[line].includes('$ cd ')) {
+      // if the script includes a dot in the 5th index this go back to the previous directory
+      // else change directory to the stated directory in the string. 
     }
+
+    // If the string 
+
   }
 
   console.log(fileSystem)
