@@ -10,12 +10,27 @@ up the string one character at a time.
 
 */
 
-// Test cases
-const testCase1 = "bvwbjplbgvbhsrlpgdmjqwftvncz";
+// Test cases for PART 1
+const part1TestCase1 = "bvwbjplbgvbhsrlpgdmjqwftvncz";
 // first marker after character 5
 
-const testCase2 = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg";
+const part1TestCase2 = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg";
 // first marker after character 10
+
+const part2TestCase1 = "mjqjpqmgbljsphdztnvjfqwrcgsmlb";
+// first marker after character 19
+
+const part2TestCase2 = "bvwbjplbgvbhsrlpgdmjqwftvncz";
+// first marker after character 23
+
+const part2TestCase3 = "nppdvjthqldpwncqszvftbrmjlhg";
+// first marker after character 23
+
+const part2TestCase4 = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg";
+// first marker after character 29
+
+
+
 
 // Read in the input file
 const fs = require("fs");
@@ -68,11 +83,20 @@ const packetStartMarker = (packet) => {
   let sequence = "";
 
   // Generate the sequence that will be sent to the uniqueCharacterCheck function
+  // PART 1
   // First loop to act as the head of the packet
-  for (let head = 4; head < packet.length; head++) {
+  // for (let head = 4; head < packet.length; head++) {
+
+  //   // Second loop to act as the tail of the sequence
+  //   for (let tail = head - 4; tail < head; tail++) {
+  //     sequence += packet[tail];
+  //   }
+  
+  // PART 2
+  for (let head = 14; head < packet.length; head++) {
 
     // Second loop to act as the tail of the sequence
-    for (let tail = head - 4; tail < head; tail++) {
+    for (let tail = head - 14; tail < head; tail++) {
       sequence += packet[tail];
     }
 
@@ -88,13 +112,31 @@ const packetStartMarker = (packet) => {
   }
 };
 
-// Test cases
-// if (packetStartMarker(testCase1) === 5) {
+// Test cases for PART 1
+// if (packetStartMarker(part1TestCase1) === 5) {
 //   console.log(`Test case 1 passed`);
 // }
 
-// if (packetStartMarker(testCase2) === 10) {
+// if (packetStartMarker(part1TestCase2) === 10) {
 //   console.log(`Test case 2 passed`);
+// }
+
+
+// Test cases for PART 2
+// if (packetStartMarker(part2TestCase1) === 19) {
+//   console.log(`Test case 1 passed`);
+// }
+
+// if (packetStartMarker(part2TestCase2) === 23) {
+//   console.log(`Test case 2 passed`);
+// }
+
+// if (packetStartMarker(part2TestCase3) === 23) {
+//   console.log(`Test case 3 passed`);
+// }
+
+// if (packetStartMarker(part2TestCase4) === 29) {
+//   console.log(`Test case 4 passed`);
 // }
 
 console.log(packetStartMarker(packet.toString()));
@@ -108,5 +150,5 @@ on the second and forth positions as is the case with testCase2 once the
 loop has run once. The trick was in where I had written the return statement  
 for the uniqueCharacterCheck function. It was inside the second loop and
 therefore returning a false positive as soon as it found a match. Moving it
-outside the loop was the fix.
+outside the loop was the fix. Second part was a doddle after that. 
 */
