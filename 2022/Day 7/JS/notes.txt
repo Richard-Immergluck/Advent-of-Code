@@ -1,0 +1,13 @@
+We have a file system that contains directories and files along with the file sizes and we have
+a set of actions that are performed within the file system as the user browses. The question is
+asking us to find all the directories with a total size no greater than 100000. The total size
+of the sum of these directories is the answer to part 1. 
+
+My first thoughts with this question is to create a dictionary containing the directories and 
+any files inside. With the dictionary creating the structure of the file system hopefully it 
+will be possible then to loop through the dictionary finding the total size of each directory
+and then find the relevant directories to sum up for the answer to part 1. 
+
+Having done some research and back and forth here, it seems that the dictionary (object) idea 
+is a good approach. Parsing the lines into a function that will create the structure of the 
+file system with directories and files means I can then search through it to find the answers.

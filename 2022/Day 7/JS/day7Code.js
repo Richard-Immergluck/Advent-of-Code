@@ -2,51 +2,123 @@
 
 --- DAY 7: No Space Left On Device ---
 
-We have a file system that contains directories and files along with the file sizes and we have
-a set of actions that are performed within the file system as the user browses. The question is
-asking us to find all the directories with a total size no greater than 100000. The total size
-of the sum of these directories is the answer to part 1. 
-
-My first thoughts with this question is to create a dictionary containing the directories and 
-any files inside. With the dictionary creating the structure of the file system hopefully it 
-will be possible then to loop through the dictionary finding the total size of each directory
-and then find the relevant directories to sum up for the answer to part 1. 
-
-Having done some research and back and forth here, it seems that the dictionary (object) idea 
-is a good approach. Parsing the lines into a function that will create the structure of the 
-file system with directories and files means I can then search through it to find the answers.
-
 */
 
 const fs = require("fs");
 
 const testScript = fs
   .readFileSync("../2022/Day 7/testinput.txt", "utf8")
-  .split("\r\n");
+  .replace(/\r/g, "")
+  .split("\n");
 // result is 95437 for this test
 
 const createFileSystem = (script) => {
-  // Declare variables
-  let fileSystem = {};
+  // Researching this, useful article about finite state machines at the following:
+  // https://dev.to/spukas/finite-state-machine-in-javascript-1ki1#:~:text=%23javascript,and%20memory%20to%20play%20with.
 
-  // To start we need a loop running through the script one line at a time and then deducing
-  // what that line's instructions are.
+  // The file system will need: name, isDirectory (boolean: false = is a file), 
+  // size (if it's a file) and subdirectories (if it's a directory with subdirectories)
+  // We're starting at the root so lets create that first
+  let root = {
+    name: "/",
+    isDirectory: true,
+    children: [],
+  };
 
-  console.log(fileSystem);
-  return fileSystem
+  // Now we need some variables to handle the changes in the directory and the relevant action we are taking. 
+  let currentDirectory = root;
+  let currentCommand = null;
+
+  // create the file system
+  for (const line of script) {
+    if (line[0] === "$") {
+      // This will be an action - change directory (there are three possible versions: "cd x", "cd .." and "cd /")
+      // Use regex to find out what the required action is using named capturing group and non-capturing group
+      // I was not previously aware that regex could do this. Thanks to awesome tutorial by youtuber thibpat for
+      // Opening my eyes. Much, much more to learn here!
+
+      // Also, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
+      // for references
+
+      const match = /\$ (?<command>\w+)(?: (?<arg>.+))?/.exec(line);
+      // This returns some key/value pairs as well as an object called groups which has the command and
+      // arg keys and values which can then be accessed
+
+      currentCommand = match.groups.command;
+
+      // now we need some if statementments for what to do if the command is cd or is ls
+      // Command is "cd"
+      if (currentCommand === "cd") {
+        const target = match.groups.arg; 
+        switch (target) {
+          case "/":
+            currentDirectory = root;
+            break;
+          case "..":
+            currentDirectory = currentDirectory.parent;
+            break;
+          default:
+            currentDirectory = currentDirectory.children.find(
+              (folder) => folder.isDirectory && folder.name === target
+            );
+        }
+      }
+    } else {
+      if (currentCommand === "ls") {
+        // For now, it's a file/directory from a 'ls' command
+        const fileMatch = /^(?<size>\d+) (?<name>.+)$/.exec(line);
+        if (fileMatch) {
+          const node = {
+            name: fileMatch.groups.name,
+            size: parseInt(fileMatch.groups.size),
+            isDirectory: false,
+            parent: currentDirectory,
+          };
+          currentDirectory.children.push(node);
+        }
+        const dirMatch = /^dir (?<name>.+)$/.exec(line);
+        if (dirMatch) {
+          const node = {
+            name: dirMatch.groups.name,
+            isDirectory: true,
+            children: [],
+            parent: currentDirectory,
+          };
+          currentDirectory.children.push(node);
+        }
+      } else {
+        throw new Error("unkown state");
+      }
+    }
+  }
+  return root;
+};
+
+// It's becoming hard to read the file tree at this stage to lets create
+// a file system printing function
+const printFileSystem = (node, depth = 0) => {
+  console.log(
+    `${" ".repeat(depth * 2)}- ${node.name} \(${node.isDirectory ? "dir" : `file, size=${node.size}`
+  })`
+  )
+  if (node.isDirectory) {
+    for (const child of node.children) {
+      printFileSystem(child, depth + 1);
+    }
+  }
 }
+
 
 // Function to return the total size of all files under 100000 (Part 1)
-const sizeParser = () => {
-  return null
-}
-
+const sizeParser = (fileSystem) => {
+  return null;
+};
 
 const part1 = (script) => {
+  const fileSystem = createFileSystem(script);
+  const readout = printFileSystem(fileSystem);
+  console.log(readout)
 
-  const fileSystem = createFileSystem(script)
-
-  
   // Tests
   if (sizeParser(fileSystem) === 95437) {
     console.log("Test script passed");
