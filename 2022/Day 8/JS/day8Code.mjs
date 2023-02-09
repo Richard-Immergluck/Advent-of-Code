@@ -64,23 +64,41 @@ const innerForestVisibilityCheck = (forest) => {
   for (let row = 1; row < forest.length; row++) {
     console.log(`The current row is ${forest[row]}`);
     let precedingTrees = [];
-    let succeedingTrees = [];
+    let treeBuffer = []
 
     // populate the succeedingTrees variable
-    for (let tree = forest[row].length - 1; tree > 0; tree--) {
-      succeedingTrees.push(forest[row][tree]);
+    for (let tree = forest[row].length -1; tree > 0; tree--) {
+      treeBuffer.push(forest[row][tree]);
     }
 
-    for (let tree = 0; tree < forest[row].length - 1; tree++) {
+    let succeedingTrees = treeBuffer.reverse();
+
+    for (let tree = 0; tree < forest[row].length -1; tree++) {
       if (tree !== 0) {
         console.log(`The current tree being checked is ${forest[row][tree]}`);
         console.log(`the preceding trees before check are ${precedingTrees}`);
         console.log(`the succeeding trees before check are ${succeedingTrees}`);
+        for (let ptree = 0; ptree < precedingTrees.length; ptree++) {
+          if (forest[row][tree] > precedingTrees[ptree]) {
+            visibleTrees++
+            break
+          }
+        }
+        for (let stree = 0; stree < succeedingTrees.length; stree++) {
+          if (forest[row][tree] > succeedingTrees[stree]) {
+            visibleTrees++
+            break
+          }
+        }
       }
+      // console.log(`the preceding tree being removed is ${forest[row][tree]}`)
       precedingTrees.push(forest[row][tree]);
-      succeedingTrees.reverse().splice(0, 1);
+      // console.log(succeedingTrees)
+      // console.log(`the succeeding tree being removed is ${succeedingTrees[0]}`)
+      succeedingTrees.splice(0, 1);
       // console.log(succeedingTrees)
     }
+    break
   }
 
   return visibleTrees;
