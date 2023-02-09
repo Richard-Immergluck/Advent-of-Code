@@ -12,6 +12,11 @@ const testScript = fs
   .split("\n");
 // result is 95437 for this test
 
+const input = fs
+  .readFileSync("../2022/Day 7/input.txt", "utf8")
+  .replace(/\r/g, "")
+  .split("\n");
+
 const createFileSystem = (script) => {
   // Researching this, useful article about finite state machines at the following:
   // https://dev.to/spukas/finite-state-machine-in-javascript-1ki1#:~:text=%23javascript,and%20memory%20to%20play%20with.
@@ -19,14 +24,14 @@ const createFileSystem = (script) => {
   // The file system will need: name, isDirectory (boolean: false = is a file),
   // size (if it's a file) and subdirectories (if it's a directory with subdirectories)
   // We're starting at the root so lets create that first
-  let root = {
+  let fileSystem = {
     name: "/",
     isDirectory: true,
     children: [],
   };
 
   // Now we need some variables to handle the changes in the directory and the relevant action we are taking.
-  let currentDirectory = root;
+  let currentDirectory = fileSystem;
   let currentCommand = null;
 
   // create the file system
@@ -52,7 +57,7 @@ const createFileSystem = (script) => {
         const target = match.groups.arg;
         switch (target) {
           case "/":
-            currentDirectory = root;
+            currentDirectory = fileSystem;
             break;
           case "..":
             currentDirectory = currentDirectory.parent;
@@ -91,7 +96,7 @@ const createFileSystem = (script) => {
       }
     }
   }
-  return root;
+  return fileSystem;
 };
 
 // It's becoming hard to read the file tree at this stage so lets create
@@ -103,6 +108,9 @@ const printFileSystem = (node, depth = 0) => {
     })`
   );
 
+  // recursive function get out clause to loop over the file system going
+  // into any subfolders.
+
   if (node.isDirectory) {
     for (const child of node.children) {
       printFileSystem(child, depth + 1);
@@ -111,27 +119,73 @@ const printFileSystem = (node, depth = 0) => {
 };
 
 // Function to return the total size of all files under 100000 (Part 1)
-const sizeParser = (fileSystem) => {
-  return null;
-};
-
-const part1 = (script) => {
-  const fileSystem = createFileSystem(script);
-  const readout = printFileSystem(fileSystem);
-  console.log(readout);
-
-  // Tests
-  if (sizeParser(fileSystem) === 95437) {
-    console.log("Test script passed");
-  } else {
-    console.log("Test script failed");
+const calcSize = (root, directoryCallback = () => {}) => {
+  if (!root.isDirectory) {
+    return root.size;
   }
+
+  const directorySize = root.children
+    .map((child) => calcSize(child, directoryCallback))
+    .reduce((a, b) => a + b, 0); // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+
+  directoryCallback(root.name, directorySize);
+
+  return directorySize;
 };
 
-// const part2 = () => {
-//   const input = getInput();
-//   //do something here
-// }
+const part1 = () => {
+  const thresholdSize = 100000;
 
-part1(testScript);
-// part2();
+  const fileSystem = createFileSystem(input);
+  // printFileSystem(fileSystem);
+
+  let totalSum = 0;
+
+  calcSize(fileSystem, (name, size) => {
+    if (size < thresholdSize) {
+      totalSum += size;
+    }
+  });
+
+  console.log(totalSum);
+
+  // // Tests
+  // if (totalSum === 95437) {
+  //   console.log("Test script passed");
+  // } else {
+  //   console.log("Test script failed");
+  // }
+};
+
+const part2 = () => {
+  const totalDiskSpace = 70000000;
+  const requiredSpace = 30000000;
+
+  const fileSystem = createFileSystem(input);
+
+  const usedSpace = calcSize(fileSystem);
+  const availableSpace = (totalDiskSpace - usedSpace);
+
+  if (availableSpace > requiredSpace) {
+    throw new Error("You drive has enough space for the update!");
+  }
+  const minimumFolderSize = requiredSpace - availableSpace;
+
+  const candidates = [];
+
+  calcSize(fileSystem, (name, size) => {
+    if (size >= minimumFolderSize) {
+      candidates.push({
+        name,
+        size,
+      });
+    }
+  });
+
+  candidates.sort((a, b) => a.size - b.size);
+
+  console.log(candidates[0].size);
+};
+
+part1();
+part2();
