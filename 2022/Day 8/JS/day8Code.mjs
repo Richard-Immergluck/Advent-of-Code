@@ -64,41 +64,51 @@ const innerForestVisibilityCheck = (forest) => {
   for (let row = 1; row < forest.length; row++) {
     console.log(`The current row is ${forest[row]}`);
     let precedingTrees = [];
-    let treeBuffer = []
+    let treeBuffer = [];
 
     // populate the succeedingTrees variable
-    for (let tree = forest[row].length -1; tree > 0; tree--) {
+    for (let tree = forest[row].length - 1; tree > 0; tree--) {
       treeBuffer.push(forest[row][tree]);
     }
 
     let succeedingTrees = treeBuffer.reverse();
 
-    for (let tree = 0; tree < forest[row].length -1; tree++) {
+    for (let tree = 0; tree < forest[row].length - 1; tree++) {
+      let isVisible = false;
+
       if (tree !== 0) {
         console.log(`The current tree being checked is ${forest[row][tree]}`);
         console.log(`the preceding trees before check are ${precedingTrees}`);
         console.log(`the succeeding trees before check are ${succeedingTrees}`);
+
         for (let ptree = 0; ptree < precedingTrees.length; ptree++) {
           if (forest[row][tree] > precedingTrees[ptree]) {
-            visibleTrees++
-            break
+            isVisible = true;
+            console.log(`This tree is visible from the WEST`);
+            break;
+          } else {
+            for (let stree = 0; stree < succeedingTrees.length; stree++) {
+              if (forest[row][tree] > succeedingTrees[stree]) {
+                isVisible = true; 
+                console.log(`This tree is visible from the EAST`);
+                break;
+              }
+            }
           }
         }
-        for (let stree = 0; stree < succeedingTrees.length; stree++) {
-          if (forest[row][tree] > succeedingTrees[stree]) {
-            visibleTrees++
-            break
-          }
+
+        // If the tree is not visible from either EAST or WEST then check North and South 
+        if (!isVisible) {
+          console.log(`This tree is NOT VISIBLE from the EAST OR WEST`)
         }
       }
-      // console.log(`the preceding tree being removed is ${forest[row][tree]}`)
+
+      // Update the preceding and succeeding trees variables
       precedingTrees.push(forest[row][tree]);
-      // console.log(succeedingTrees)
-      // console.log(`the succeeding tree being removed is ${succeedingTrees[0]}`)
       succeedingTrees.splice(0, 1);
-      // console.log(succeedingTrees)
     }
-    break
+
+    break; // Working with one line only at the moment
   }
 
   return visibleTrees;
