@@ -75,6 +75,7 @@ const innerForestVisibilityCheck = (forest) => {
 
     for (let tree = 0; tree < forest[row].length - 1; tree++) {
       let isVisible = false;
+      let currentTree = forest[row][tree];
 
       if (tree !== 0) {
         console.log(`The current tree being checked is ${forest[row][tree]}`);
@@ -89,7 +90,7 @@ const innerForestVisibilityCheck = (forest) => {
           } else {
             for (let stree = 0; stree < succeedingTrees.length; stree++) {
               if (forest[row][tree] > succeedingTrees[stree]) {
-                isVisible = true; 
+                isVisible = true;
                 console.log(`This tree is visible from the EAST`);
                 break;
               }
@@ -97,9 +98,28 @@ const innerForestVisibilityCheck = (forest) => {
           }
         }
 
-        // If the tree is not visible from either EAST or WEST then check North and South 
+        // If the tree is not visible from either EAST or WEST then check North and South
         if (!isVisible) {
-          console.log(`This tree is NOT VISIBLE from the EAST OR WEST`)
+          console.log(`This tree is NOT VISIBLE from the EAST OR WEST`);
+
+          let column = [];
+
+          for (let row = 0; row < forest.length; row++) {
+            if (forest[row][tree] !== currentTree) {
+              column.push(forest[row][tree]);
+            }
+          }
+
+          console.log(
+            `the column for the tree that is not visible from EAST or WEST is ${column}`
+          );
+
+          for (const tree of column) {
+            if (tree < currentTree) {
+              isVisible = true;
+              break;
+            }
+          }
         }
       }
 
@@ -107,6 +127,8 @@ const innerForestVisibilityCheck = (forest) => {
       precedingTrees.push(forest[row][tree]);
       succeedingTrees.splice(0, 1);
     }
+
+    console.log(`lets check if this is working?? ${isVisible}`)
 
     break; // Working with one line only at the moment
   }
