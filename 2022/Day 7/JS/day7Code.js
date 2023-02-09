@@ -16,7 +16,7 @@ const createFileSystem = (script) => {
   // Researching this, useful article about finite state machines at the following:
   // https://dev.to/spukas/finite-state-machine-in-javascript-1ki1#:~:text=%23javascript,and%20memory%20to%20play%20with.
 
-  // The file system will need: name, isDirectory (boolean: false = is a file), 
+  // The file system will need: name, isDirectory (boolean: false = is a file),
   // size (if it's a file) and subdirectories (if it's a directory with subdirectories)
   // We're starting at the root so lets create that first
   let root = {
@@ -25,7 +25,7 @@ const createFileSystem = (script) => {
     children: [],
   };
 
-  // Now we need some variables to handle the changes in the directory and the relevant action we are taking. 
+  // Now we need some variables to handle the changes in the directory and the relevant action we are taking.
   let currentDirectory = root;
   let currentCommand = null;
 
@@ -49,7 +49,7 @@ const createFileSystem = (script) => {
       // now we need some if statementments for what to do if the command is cd or is ls
       // Command is "cd"
       if (currentCommand === "cd") {
-        const target = match.groups.arg; 
+        const target = match.groups.arg;
         switch (target) {
           case "/":
             currentDirectory = root;
@@ -94,20 +94,21 @@ const createFileSystem = (script) => {
   return root;
 };
 
-// It's becoming hard to read the file tree at this stage to lets create
+// It's becoming hard to read the file tree at this stage so lets create
 // a file system printing function
 const printFileSystem = (node, depth = 0) => {
   console.log(
-    `${" ".repeat(depth * 2)}- ${node.name} \(${node.isDirectory ? "dir" : `file, size=${node.size}`
-  })`
-  )
+    `${" ".repeat(depth * 2)}- ${node.name} (${
+      node.isDirectory ? "dir" : `file, size=${node.size}`
+    })`
+  );
+
   if (node.isDirectory) {
     for (const child of node.children) {
       printFileSystem(child, depth + 1);
     }
   }
-}
-
+};
 
 // Function to return the total size of all files under 100000 (Part 1)
 const sizeParser = (fileSystem) => {
@@ -117,7 +118,7 @@ const sizeParser = (fileSystem) => {
 const part1 = (script) => {
   const fileSystem = createFileSystem(script);
   const readout = printFileSystem(fileSystem);
-  console.log(readout)
+  console.log(readout);
 
   // Tests
   if (sizeParser(fileSystem) === 95437) {
