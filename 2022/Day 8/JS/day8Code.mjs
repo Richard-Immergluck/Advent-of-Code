@@ -67,16 +67,18 @@ const innerForestVisibilityCheck = (forest) => {
     let succeedingTrees = [];
 
     // populate the succeedingTrees variable
-    for (let tree = forest[row].length -1 ; tree > 0; tree--) {
-     succeedingTrees.push(forest[row][tree])
+    for (let tree = forest[row].length - 1; tree > 0; tree--) {
+      succeedingTrees.push(forest[row][tree]);
     }
- 
-    for (let tree = 0; tree < forest[row].length; tree++) {
-      console.log(`The current tree being checked is ${forest[row][tree]}`)
-      console.log(`the preceding trees before check are ${precedingTrees}`)
-      console.log(`the succeeding trees before check are ${succeedingTrees}`)
-      precedingTrees.push(forest[row][tree])
-      succeedingTrees.reverse().splice(0,1)
+
+    for (let tree = 0; tree < forest[row].length - 1; tree++) {
+      if (tree !== 0) {
+        console.log(`The current tree being checked is ${forest[row][tree]}`);
+        console.log(`the preceding trees before check are ${precedingTrees}`);
+        console.log(`the succeeding trees before check are ${succeedingTrees}`);
+      }
+      precedingTrees.push(forest[row][tree]);
+      succeedingTrees.reverse().splice(0, 1);
       // console.log(succeedingTrees)
     }
   }
